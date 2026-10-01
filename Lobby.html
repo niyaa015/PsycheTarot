@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="id" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PsycheTarot Ultra - Portal Refleksi & Psikologi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+    
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(circle at top, #1e1b4b, #0f172a, #020617);
+      color: #f8fafc;
+      min-height: 100vh;
+    }
+
+    .font-serif-title {
+      font-family: 'Cinzel', serif;
+    }
+
+    .card-inner {
+      transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-style: preserve-3d;
+    }
+
+    .card-flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+    }
+
+    .glow-effect {
+      box-shadow: 0 0 25px -5px rgba(99, 102, 241, 0.3);
+    }
+
+    .glow-effect:hover {
+      box-shadow: 0 0 35px 0px rgba(168, 85, 247, 0.5);
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Navbar Navigation -->
+  <nav class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('tarot')">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-400 to-indigo-600 flex items-center justify-center text-lg shadow-lg shadow-indigo-500/20">
+          🔮
+        </div>
+        <div>
+          <span class="font-serif-title font-bold text-lg text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-indigo-200 to-pink-300">
+            PsycheTarot
+          </span>
+          <span class="text-[10px] block text-indigo-400 font-medium tracking-wider -mt-1">PRO EDITION</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-1 md:gap-3 text-xs md:text-sm">
+        <button id="nav-tarot" onclick="switchTab('tarot')" class="px-3.5 py-2 rounded-xl bg-indigo-600/30 text-indigo-200 font-semibold border border-indigo-500/40 transition-all flex items-center gap-1.5">
+          <span>🔮</span> <span class="hidden sm:inline">Tarot Reading</span>
+        </button>
+        <button id="nav-psych" onclick="switchTab('psych')" class="px-3.5 py-2 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition-all flex items-center gap-1.5">
+          <span>🧠</span> <span class="hidden sm:inline">Ruang Psikologi</span>
+        </button>
+        <button id="nav-journal" onclick="switchTab('journal')" class="px-3.5 py-2 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition-all flex items-center gap-1.5 relative">
+          <span>📝</span> <span class="hidden sm:inline">Jurnal Refleksi</span>
+          <span id="journalBadge" class="hidden w-2 h-2 rounded-full bg-pink-500"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Container Utama -->
+  <main class="max-w-5xl mx-auto px-4 py-8 flex-1 w-full">
+
+    <!-- ================= TAB 1: TAROT READING ================= -->
+    <section id="section-tarot" class="block space-y-8 animate-fade-in">
+      <div class="text-center max-w-2xl mx-auto space-y-2">
+        <span class="text-[11px] uppercase tracking-widest text-indigo-400 font-bold border border-indigo-500/30 px-3 py-1 rounded-full bg-indigo-950/50 backdrop-blur-md">
+          22 Major Arcana • Psiko-Refleksi
+        </span>
+        <h1 class="text-3xl md:text-5xl font-bold font-serif-title text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-slate-100 to-indigo-200 pt-2">
+          Eksplorasi Proyeksi Bawah Sadar
+        </h1>
+        <p class="text-slate-400 text-xs md:text-sm leading-relaxed">
+          Tentukan niat atau pertanyaan dalam hatimu. Buka ketiga kartu di bawah ini untuk melihat korelasi antara intuisi Tarot dan prinsip psikologi analisis diri.
+        </p>
+      </div>
+
+      <!-- Tampilan Kartu -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="cardContainer">
+        <!-- Kartu 1 -->
+        <div class="perspective-1000 cursor-pointer group" onclick="drawCard(0)">
+          <div class="flex items-center justify-between px-1 mb-2">
+            <span class="text-xs font-semibold text-amber-300/80 uppercase tracking-wider">1. Akar / Masa Lalu</span>
+            <span id="label-0" class="text-[10px] text-slate-500">Belum Dibuka</span>
+          </div>
+          <div id="card-0" class="card-inner glow-effect relative w-full h-80 rounded-2xl border border-slate-700/60 bg-slate-900/40">
+            <div class="card-front absolute inset-0 bg-gradient-to-br from-indigo-950/80 via-slate-900 to-purple-950/80 rounded-2xl flex flex-col items-center justify-center p-6 border border-amber-500/20 group-hover:border-indigo-400/50 transition">
+              <div class="w-16 h-16 rounded-2xl border border-amber-400/30 bg-amber-400/5 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+                <span class="text-2xl text-amber-300">✦</span>
+              </div>
+              <p class="text-xs text-slate-400 font-medium">Klik Untuk Mengungkap</p>
+            </div>
+            <div class="card-back absolute inset-0 bg-slate-950/95 border border-indigo-500/50 rounded-2xl flex flex-col items-center justify-center p-6 text-center space-y-2">
+              <span id="card-icon-0" class="text-5xl mb-1"></span>
+              <h3 id="card-title-0" class="text-base font-bold font-serif-title text-amber-200"></h3>
+              <p id="card-keyword-0" class="text-xs text-indigo-300 italic"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kartu 2 -->
+        <div class="perspective-1000 cursor-pointer group" onclick="drawCard(1)">
+          <div class="flex items-center justify-between px-1 mb-2">
+            <span class="text-xs font-semibold text-amber-300/80 uppercase tracking-wider">2. Kondisi Saat Ini</span>
+            <span id="label-1" class="text-[10px] text-slate-500">Belum Dibuka</span>
+          </div>
+          <div id="card-1" class="card-inner glow-effect relative w-full h-80 rounded-2xl border border-slate-700/60 bg-slate-900/40">
+            <div class="card-front absolute inset-0 bg-gradient-to-br from-indigo-950/80 via-slate-900 to-purple-950/80 rounded-2xl flex flex-col items-center justify-center p-6 border border-amber-500/20 group-hover:border-indigo-400/50 transition">
+              <div class="w-16 h-16 rounded-2xl border border-amber-400/30 bg-amber-400/5 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+                <span class="text-2xl text-amber-300">✦</span>
+              </div>
+              <p class="text-xs text-slate-400 font-medium">Klik Untuk Mengungkap</p>
+            </div>
+            <div class="card-back absolute inset-0 bg-slate-950/95 border border-indigo-500/50 rounded-2xl flex flex-col items-center justify-center p-6 text-center space-y-2">
+              <span id="card-icon-1" class="text-5xl mb-1"></span>
+              <h3 id="card-title-1" class="text-base font-bold font-serif-title text-amber-200"></h3>
+              <p id="card-keyword-1" class="text-xs text-indigo-300 italic"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kartu 3 -->
+        <div class="perspective-1000 cursor-pointer group" onclick="drawCard(2)">
+          <div class="flex items-center justify-between px-1 mb-2">
+            <span class="text-xs font-semibold text-amber-300/80 uppercase tracking-wider">3. Potensi / Potensi Arah</span>
+            <span id="label-2" class="text-[10px] text-slate-500">Belum Dibuka</span>
+          </div>
+          <div id="card-2" class="card-inner glow-effect relative w-full h-80 rounded-2xl border border-slate-700/60 bg-slate-900/40">
+            <div class="card-front absolute inset-0 bg-gradient-to-br from-indigo-950/80 via-slate-900 to-purple-950/80 rounded-2xl flex flex-col items-center justify-center p-6 border border-amber-500/20 group-hover:border-indigo-400/50 transition">
+              <div class="w-16 h-16 rounded-2xl border border-amber-400/30 bg-amber-400/5 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+                <span class="text-2xl text-amber-300">✦</span>
+              </div>
+              <p class="text-xs text-slate-400 font-medium">Klik Untuk Mengungkap</p>
+            </div>
+            <div class="card-back absolute inset-0 bg-slate-950/95 border border-indigo-500/50 rounded-2xl flex flex-col items-center justify-center p-6 text-center space-y-2">
+              <span id="card-icon-2" class="text-5xl mb-1"></span>
+              <h3 id="card-title-2" class="text-base font-bold font-serif-title text-amber-200"></h3>
+              <p id="card-keyword-2" class="text-xs text-indigo-300 italic"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tombol Acak -->
+      <div class="text-center">
+        <button onclick="resetDeck()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600/40 to-purple-600/40 hover:from-indigo-600/60 hover:to-purple-600/60 border border-indigo-400/40 text-xs tracking-wider uppercase font-bold transition flex items-center gap-2 mx-auto shadow-lg backdrop-blur-md active:scale-95">
+          <span>🔄</span> Kocok & Acak Kartu Baru
+        </button>
+      </div>
+
+      <!-- Panel Detail Hasil Reading -->
+      <div id="resultPanel" class="hidden p-6 md:p-8 rounded-3xl bg-slate-900/90 border border-indigo-500/30 backdrop-blur-xl shadow-2xl space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+          <div>
+            <span class="text-[10px] text-indigo-400 uppercase font-bold tracking-widest block">Analisis Terbuka</span>
+            <h2 id="resultTitle" class="text-2xl font-bold font-serif-title text-amber-200 mt-0.5"></h2>
+          </div>
+          <span id="resultCategory" class="px-3 py-1 rounded-full bg-indigo-950 text-indigo-300 text-xs font-semibold border border-indigo-800/50"></span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-5 rounded-2xl bg-purple-950/20 border border-purple-800/30 space-y-2">
+            <h3 class="text-sm font-semibold text-purple-300 flex items-center gap-2">
+              🔮 Interpretasi Arketipe Tarot
+            </h3>
+            <p id="tarotMeaning" class="text-xs md:text-sm text-slate-300 leading-relaxed"></p>
+          </div>
+          <div class="p-5 rounded-2xl bg-teal-950/20 border border-teal-800/30 space-y-2">
+            <h3 class="text-sm font-semibold text-teal-300 flex items-center gap-2">
+              🧠 Sudut Pandang Refleksi Psikologi
+            </h3>
+            <p id="psychMeaning" class="text-xs md:text-sm text-slate-300 leading-relaxed"></p>
+          </div>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-indigo-950/30 border border-indigo-800/30 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div class="space-y-1">
+            <h4 class="text-xs uppercase tracking-wider text-indigo-300 font-bold">Pertanyaan Refleksi Diri:</h4>
+            <p id="reflectionQuestion" class="text-sm italic text-slate-100 font-medium"></p>
+          </div>
+          <button onclick="saveToJournal()" class="px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-xl text-xs font-semibold whitespace-nowrap transition shadow-lg shadow-indigo-500/20 active:scale-95">
+            💾 Simpan ke Jurnal Anda
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB 2: MENU PSIKOLOG ================= -->
+    <section id="section-psych" class="hidden space-y-8">
+      <div class="text-center max-w-2xl mx-auto space-y-2">
+        <span class="text-[11px] uppercase tracking-widest text-teal-400 font-bold border border-teal-500/30 px-3 py-1 rounded-full bg-teal-950/50 backdrop-blur-md">
+          Layanan Kesehatan Mental & Self-Care
+        </span>
+        <h1 class="text-3xl md:text-4xl font-bold font-serif-title text-teal-200">
+          Ruang Psikologi & Mental Check-In
+        </h1>
+        <p class="text-slate-400 text-xs md:text-sm leading-relaxed">
+          Pahami kondisi psikologis harianmu dan akses panduan praktis serta kontak bantuan profesional terpercaya.
+        </p>
+      </div>
+
+      <!-- Kuis Screening Mental Singkat -->
+      <div class="p-6 md:p-8 rounded-3xl bg-slate-900/80 border border-slate-800 space-y-6 shadow-xl">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-100">📊 Interactive Mental Well-being Check</h3>
+            <p class="text-xs text-slate-400 mt-1">Jawab pertanyaan singkat berikut untuk mendeteksi beban emosionalmu saat ini.</p>
+          </div>
+          <span class="text-2xl">🌱</span>
+        </div>
+
+        <div id="quizContainer" class="space-y-4">
+          <p id="quizQuestion" class="text-sm font-semibold text-indigo-200"></p>
+          <div id="quizOptions" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+        </div>
+
+        <div id="quizResult" class="hidden p-5 rounded-2xl bg-teal-950/40 border border-teal-800/50 space-y-2">
+          <h4 class="text-sm font-bold text-teal-200" id="quizResultTitle"></h4>
+          <p class="text-xs text-slate-300 leading-relaxed" id="quizResultDesc"></p>
+          <button onclick="resetQuiz()" class="mt-2 text-xs text-teal-400 hover:underline">↺ Ulangi Tes</button>
+        </div>
+      </div>
+
+      <!-- Direktori Layanan Profesional & Bantuan Crisis -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 space-y-4">
+          <div class="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-xl text-teal-300">
+            🩺
+          </div>
+          <h3 class="text-base font-bold text-slate-200">Direktori Konsultasi Profesional</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Membaca tarot adalah sarana kuis dan refleksi pribadi, bukan alat diagnosis klinis. Jika kamu merasakan gangguan kecemasan berat, depresi, atau hambatan aktivitas harian, segera hubungi profesional psikologi.
+          </p>
+
+          <div class="space-y-2 pt-2">
+            <a href="https://himpunanpsikologi.or.id/" target="_blank" rel="noopener" class="flex items-center justify-between p-3 rounded-xl bg-slate-950/60 border border-slate-800 hover:border-teal-500/40 transition text-xs text-teal-300 font-medium">
+              <span>Himpunan Psikologi Indonesia (HIMPSI)</span> <span>↗</span>
+            </a>
+            <a href="https://www.halodoc.com/kesehatan-mental" target="_blank" rel="noopener" class="flex items-center justify-between p-3 rounded-xl bg-slate-950/60 border border-slate-800 hover:border-teal-500/40 transition text-xs text-teal-300 font-medium">
+              <span>Konsultasi Psikolog Online</span> <span>↗</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 space-y-4">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-xl text-amber-300">
+            📞
+          </div>
+          <h3 class="text-base font-bold text-slate-200">Layanan Kontak Krisis (Darurat)</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Jika kamu membutuhkan teman bicara mendesak atau seseorang yang siap mendengarkan tanpa menghakimi:
+          </p>
+          <div class="space-y-2 pt-1 font-mono text-xs">
+            <div class="p-3 rounded-xl bg-amber-950/30 border border-amber-800/40 flex items-center justify-between text-amber-200">
+              <span>Layanan Sehat Jiwa Kemenkes:</span>
+              <span class="font-bold text-amber-300">119 (Ext 8)</span>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800 flex items-center justify-between text-slate-300">
+              <span>Hotline Pencegahan Krisis:</span>
+              <span class="font-bold text-indigo-300">1500-567</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB 3: DAILY JOURNAL ================= -->
+    <section id="section-journal" class="hidden space-y-6">
+      <div class="text-center max-w-2xl mx-auto space-y-2">
+        <span class="text-[11px] uppercase tracking-widest text-pink-400 font-bold border border-pink-500/30 px-3 py-1 rounded-full bg-pink-950/50 backdrop-blur-md">
+          Personal Mental Journaling
+        </span>
+        <h1 class="text-3xl md:text-4xl font-bold font-serif-title text-pink-200">
+          Jurnal Refleksi Pribadi
+        </h1>
+        <p class="text-slate-400 text-xs md:text-sm leading-relaxed">
+          Semua entitas catatan tersimpan otomatis di perangkatmu (*LocalStorage*). Tuliskan isi pikiranmu atau unduh seluruh jurnal untuk backup pribadi.
+        </p>
+      </div>
+
+      <!-- Input Jurnal Baru -->
+      <div class="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 space-y-4 shadow-xl">
+        <textarea id="journalInput" rows="4" placeholder="Tuliskan apa yang kamu rasakan atau apa yang sedang membebani pikiranmu hari ini..." class="w-full p-4 rounded-2xl bg-slate-950 border border-slate-800 text-slate-200 text-sm focus:outline-none focus:border-pink-500/50 transition"></textarea>
+        
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <button onclick="addJournalEntry()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white font-semibold text-xs transition shadow-lg shadow-pink-500/20 active:scale-95">
+            + Tambah Catatan Baru
+          </button>
+          
+          <button onclick="exportJournals()" class="px-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800/40 hover:bg-slate-800 text-xs text-slate-300 font-medium transition flex items-center gap-1">
+            📥 Unduh Backup (.txt)
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter & List Catatan -->
+      <div class="space-y-4">
+        <div class="flex items-center justify-between gap-4">
+          <h3 class="text-sm font-bold text-slate-300">Riwayat Catatan Refleksi</h3>
+          <input type="text" id="searchJournal" oninput="renderJournals()" placeholder="Cari catatan..." class="px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 w-40 focus:outline-none focus:border-pink-500">
+        </div>
+
+        <div id="journalEntries" class="space-y-3"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-slate-800/80 py-6 text-center text-xs text-slate-500 mt-12 backdrop-blur-md">
+    PsycheTarot Portal &copy; 2026. Dirancang khusus untuk eksplorasi diri, kesehatan mental & kejelasan batin.
+  </footer>
+
+  <script>
+    // ================= SPREAD & DATABASE TAROT (22 MAJOR ARCANA) =================
+    const tarotDeck = [
+      { title: "0. The Fool", icon: "🎒", keywords: "Awal Baru, Kepolosan, Keberanian", tarot: "Simbol langkah awal menuju wilayah yang belum dikenal tanpa rasa takut.", psych: "Resonansi dengan sifat 'Openness to Experience'. Keberanian melepaskan kontrol berlebih.", reflection: "Apa satu hal baru yang ingin kamu coba tanpa takut dinilai orang lain?" },
+      { title: "I. The Magician", icon: "🪄", keywords: "Potensi, Manifestasi, Sumber Daya", tarot: "Kamu telah memiliki semua alat dan potensi yang dibutuhkan untuk bertindak.", psych: "Memiliki 'Internal Locus of Control'. Keyakinan bahwa tindakanmu bisa mengubah keadaan.", reflection: "Keterampilan apa dalam dirimu yang saat ini paling bisa kamu manfaatkan?" },
+      { title: "II. The High Priestess", icon: "🌙", keywords: "Intuisi, Rahasia, Bawah Sadar", tarot: "Jawaban terletak pada insting batinmu, bukan pada logika luar semata.", psych: "Proses 'Unconscious Processing'. Membiarkan alam bawah sadar mencerna informasi emosional.", reflection: "Firasat apa yang belakangan ini terus-menerus muncul dalam pikiranmu?" },
+      { title: "III. The Empress", icon: "🌾", keywords: "Kreativitas, Pengasuhan, Kelimpahan", tarot: "Menyimbolkan fase pertumbuhan, kreativitas, dan perhatian pada diri sendiri.", psych: "Prinsip 'Self-Compassion'. Memberi ruang bagi dirimu untuk tumbuh secara bertahap.", reflection: "Bagaimana cara terbaik untuk merawat fisik dan mentalmu hari ini?" },
+      { title: "IV. The Emperor", icon: "👑", keywords: "Struktur, Kontrol, Batasan Sehat", tarot: "Perlu adanya penataan ulang, disiplin, dan struktur yang jelas dalam hidup.", psych: "Pentingnya 'Boundary Setting' (Batasan diri) untuk menjaga kestabilan psikologis.", reflection: "Di mana kamu perlu menegaskan batasan agar tidak merasa dieksploitasi?" },
+      { title: "V. The Hierophant", icon: "🏛️", keywords: "Tradisi, Nilai-Nilai, Kepercayaan", tarot: "Pencarian makna melalui nilai moral, pendidikan, atau bimbingan orang lain.", psych: "Sistem nilai dan keyakinan (*Core Beliefs*) yang membentuk cara pandangmu.", reflection: "Apakah prinsip yang kamu pegang saat ini murni milikmu atau paksaan orang lain?" },
+      { title: "VI. The Lovers", icon: "💞", keywords: "Pilihan, Harmoni, Kemitraan", tarot: "Momen mengambil keputusan penting yang selaras dengan nilai hatimu.", psych: "Integritas diri dan penyelarasan antara keinginan emosional serta tindakan nyata.", reflection: "Pilihan apa yang paling sesuai dengan kata hatimu saat ini?" },
+      { title: "VII. The Chariot", icon: "🛞", keywords: "Tekad, Fokus, Kemenangan", tarot: "Kemampuan mengendalikan dua dorongan yang bertolak belakang menuju satu tujuan.", psych: "Regulasi emosi (*Emotional Regulation*) saat menghadapi tekanan atau konflik internal.", reflection: "Hal apa yang paling membutuhkan fokus dan kendali dirimu saat ini?" },
+      { title: "VIII. Strength", icon: "🦁", keywords: "Kekuatan Batin, Kesabaran, Welas Asih", tarot: "Menaklukkan tantangan bukan dengan amarah, melainkan dengan ketenangan.", psych: "Resiliensi psikologis dan regulasi respon otak (*Amygdala management*).", reflection: "Bagaimana kamu bisa merespon tantangan dengan lebih tenang dan sabar?" },
+      { title: "IX. The Hermit", icon: "🏮", keywords: "Introspeksi, Kesunyian, Refleksi", tarot: "Menarik diri sejenak dari hiruk-pikuk dunia untuk menemukan kejelasan.", psych: "Manfaat 'Quality Solitude' dalam mengurai beban kognitif (*cognitive decluttering*).", reflection: "Kapan terakhir kali kamu duduk hening tanpa memegang gadget?" },
+      { title: "X. Wheel of Fortune", icon: "🎡", keywords: "Perubahan, Siklus Hidup, Penerimaan", tarot: "Roda kehidupan terus berputar. Tidak ada situasi yang abadi.", psych: "Kemampuan adaptasi psikologis (*Psychological Flexibility*) terhadap perubahan.", reflection: "Perubahan apa yang saat ini perlu kamu terima dengan lapang dada?" },
+      { title: "XI. Justice", icon: "⚖️", keywords: "Keadilan, Kejujuran, Konsekuensi", tarot: "Keputusan harus diambil secara obyektif berdasarkan fakta dan kebenaran.", psych: "Objektivitas berpikir dan pelepasan bias kognitif (*Cognitive Bias*).", reflection: "Apakah kamu sudah berlaku jujur dan adil pada dirimu sendiri?" },
+      { title: "XII. The Hanged Man", icon: "🙃", keywords: "Perspektif Baru, Pelepasan, Pause", tarot: "Melihat situasi dari sudut pandang yang sama sekali berbeda dengan berhenti sejenak.", psych: "Reframing kognitif (*Cognitive Reframing*) untuk menemukan arti baru.", reflection: "Bagaimana jika masalah yang kamu hadapi dilihat dari sudut pandang orang lain?" },
+      { title: "XIII. Death", icon: "🥀", keywords: "Transformasi, Akhir Babak, Pelepasan", tarot: "Berakhirnya satu fase lama untuk memberi ruang bagi pertumbuhan baru.", psych: "Proses 'Grieving & Letting Go' terhadap identitas atau kebiasaan lama.", reflection: "Kebiasaan atau kenangan lama apa yang sudah saatnya kamu ikhlaskan?" },
+      { title: "XIV. Temperance", icon: "🏺", keywords: "Keseimbangan, Moderasi, Ketenangan", tarot: "Memadukan dua elemen berbeda secara harmonis tanpa berlebihan.", psych: "Homeostasis emosional—menjaga keseimbangan antara kerja dan istirahat.", reflection: "Area mana dalam hidupmu yang terasa terlalu berlebihan atau timpang?" },
+      { title: "XV. The Devil", icon: "🔗", keywords: "Keterikatan, Ilusi, Adiksi", tarot: "Menyadari pola-pola yang membuatmu merasa terikat atau tidak bebas.", psych: "Pola pemicu (*Triggers*) dan kebiasaan kompulsif yang merugikan diri.", reflection: "Pikiran negatif atau keterikatan apa yang paling membatasi ruang gerakmu?" },
+      { title: "XVI. The Tower", icon: "⚡", keywords: "Kesadaran Mendadak, Perubahan Total", tarot: "Runtuhnya persepsi atau harapan palsu demi kebenaran yang nyata.", psych: "Disrupsi kognitif yang memicu pemahaman baru (*Aha-moment/Epiphany*).", reflection: "Pelajaran berharga apa yang kamu dapatkan dari krisis baru-baru ini?" },
+      { title: "XVII. The Star", icon: "⭐", keywords: "Harapan, Pemulihan, Optimisme", tarot: "Cahaya di ujung lorong gelap; pemulihan kedamaian jiwa.", psych: "Fase pemulihan sistem saraf (*Rest and Digest*) serta optimisme rasional.", reflection: "Harapan besar apa yang ingin kamu bangun kembali hari ini?" },
+      { title: "XVIII. The Moon", icon: "🌊", keywords: "Kecemasan, Keraguan, Bayangan", tarot: "Ketakutan yang samar dan bayangan tak pasti yang memicu keraguan.", psych: "Distorsi kognitif berupa *catastrophizing* atau membesar-besarkan masalah.", reflection: "Apakah ketakutanmu didasari oleh fakta nyata atau sekadar bayangan pikiran?" },
+      { title: "XIX. The Sun", icon: "☀️", keywords: "Kejelasan, Kegembiraan, Vitalitas", tarot: "Segalanya tampak terang, jelas, dan penuh dengan energi positif.", psych: "Perasaan *Flow* dan afirmasi emosi positif (*Positive Psychology*).", reflection: "Hal sederhana apa yang paling membuatmu merasa gembira hari ini?" },
+      { title: "XX. Judgement", icon: "🎺", keywords: "Panggilan Jiwa, Kesadaran, Evaluasi", tarot: "Momen mengevaluasi perjalanan hidup dan merespon panggilan baru.", psych: "Proses self-actualization dan evaluasi pencapaian personal.", reflection: "Keputusan penting apa yang sedang ditunggu oleh dirimu sendiri?" },
+      { title: "XXI. The World", icon: "🌍", keywords: "Penyelesaian, Keutuhan, Integrasi", tarot: "Satu siklus penting telah lengkap. Kamu telah mencapai pemahaman utuh.", psych: "Rasa pencapaian (*Sense of Completion*) dan integrasi pengalamannya.", reflection: "Pencapaian diri apa yang paling ingin kamu rayakan saat ini?" }
+    ];
+
+    let currentSelection = [];
+
+    // ================= SOUND SYNTHESIZER (WEB AUDIO API) =================
+    function playAudioTone(freq, type="sine", duration=0.1) {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        gain.gain.setValueAtTime(0.05, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + duration);
+      } catch(e) {}
+    }
+
+    // ================= SYSTEM TAB SWITCHING =================
+    function switchTab(tab) {
+      playAudioTone(440, 'sine', 0.05);
+      ['tarot', 'psych', 'journal'].forEach(t => {
+        document.getElementById(`section-${t}`).classList.add('hidden');
+        document.getElementById(`nav-${t}`).className = "px-3.5 py-2 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition-all flex items-center gap-1.5";
+      });
+
+      document.getElementById(`section-${tab}`).classList.remove('hidden');
+      const activeNav = document.getElementById(`nav-${tab}`);
+      
+      if(tab === 'tarot') activeNav.className = "px-3.5 py-2 rounded-xl bg-indigo-600/30 text-indigo-200 font-semibold border border-indigo-500/40 transition-all flex items-center gap-1.5";
+      if(tab === 'psych') activeNav.className = "px-3.5 py-2 rounded-xl bg-teal-600/30 text-teal-200 font-semibold border border-teal-500/40 transition-all flex items-center gap-1.5";
+      if(tab === 'journal') activeNav.className = "px-3.5 py-2 rounded-xl bg-pink-600/30 text-pink-200 font-semibold border border-pink-500/40 transition-all flex items-center gap-1.5";
+    }
+
+    // ================= TAROT SYSTEM =================
+    function resetDeck() {
+      playAudioTone(300, 'triangle', 0.2);
+      const shuffled = [...tarotDeck].sort(() => 0.5 - Math.random());
+      currentSelection = shuffled.slice(0, 3);
+
+      for (let i = 0; i < 3; i++) {
+        document.getElementById(`card-${i}`).classList.remove('card-flipped');
+        document.getElementById(`label-${i}`).innerText = "Belum Dibuka";
+        document.getElementById(`label-${i}`).className = "text-[10px] text-slate-500";
+      }
+      document.getElementById('resultPanel').classList.add('hidden');
+    }
+
+    function drawCard(index) {
+      playAudioTone(600, 'sine', 0.15);
+      const cardElem = document.getElementById(`card-${index}`);
+      const cardData = currentSelection[index];
+
+      document.getElementById(`card-icon-${index}`).innerText = cardData.icon;
+      document.getElementById(`card-title-${index}`).innerText = cardData.title;
+      document.getElementById(`card-keyword-${index}`).innerText = cardData.keywords;
+      document.getElementById(`label-${index}`).innerText = "Terbuka ✨";
+      document.getElementById(`label-${index}`).className = "text-[10px] text-amber-300 font-bold";
+
+      cardElem.classList.add('card-flipped');
+
+      setTimeout(() => {
+        document.getElementById('resultTitle').innerText = `${cardData.icon} ${cardData.title}`;
+        document.getElementById('resultCategory').innerText = cardData.keywords;
+        document.getElementById('tarotMeaning').innerText = cardData.tarot;
+        document.getElementById('psychMeaning').innerText = cardData.psych;
+        document.getElementById('reflectionQuestion').innerText = `"${cardData.reflection}"`;
+        
+        const panel = document.getElementById('resultPanel');
+        panel.classList.remove('hidden');
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 350);
+    }
+
+    function saveToJournal() {
+      playAudioTone(800, 'sine', 0.2);
+      const cardTitle = document.getElementById('resultTitle').innerText;
+      const question = document.getElementById('reflectionQuestion').innerText;
+      const text = `[Reading Tarot: ${cardTitle}]\nRefleksi: ${question}`;
+      
+      saveJournalEntry(text);
+      switchTab('journal');
+    }
+
+    // ================= KUIS PSIKOLOGI =================
+    const quizQuestions = [
+      {
+        q: "Bagaimana kondisi pikiranmu dalam beberapa jam terakhir?",
+        options: [
+          { text: "Penuh dengan kecemasan & overthinking", score: 3 },
+          { text: "Merasa lelah, jenuh, dan kurang energi", score: 2 },
+          { text: "Agak sensitif dan mudah terganggu", score: 2 },
+          { text: "Cukup tenang, fokus, dan stabil", score: 1 }
+        ]
+      }
+    ];
+
+    function resetQuiz() {
+      document.getElementById('quizResult').classList.add('hidden');
+      document.getElementById('quizContainer').classList.remove('hidden');
+      const q = quizQuestions[0];
+      document.getElementById('quizQuestion').innerText = q.q;
+      
+      const optContainer = document.getElementById('quizOptions');
+      optContainer.innerHTML = q.options.map((opt, i) => `
+        <button onclick="answerQuiz(${opt.score})" class="p-3.5 rounded-xl border border-slate-800 bg-slate-950/60 hover:border-teal-500/50 hover:bg-teal-950/20 text-left text-xs text-slate-200 transition">
+          ${opt.text}
+        </button>
+      `).join('');
+    }
+
+    function answerQuiz(score) {
+      playAudioTone(500, 'sine', 0.1);
+      document.getElementById('quizContainer').classList.add('hidden');
+      const res = document.getElementById('quizResult');
+      res.classList.remove('hidden');
+
+      const title = document.getElementById('quizResultTitle');
+      const desc = document.getElementById('quizResultDesc');
+
+      if(score >= 3) {
+        title.innerText = "💡 Saran: Latihan Grounding & Pernapasan";
+        desc.innerText = "Sistem sarafmu sedang dalam mode waspada. Coba teknik Grounding 5-4-3-2-1: Sebutkan 5 hal yang kamu lihat, 4 hal yang bisa kamu sentuh, 3 suara yang kamu dengar, 2 aroma, dan 1 rasa saat ini.";
+      } else if(score === 2) {
+        title.innerText = "🔋 Saran: Kurangi Beban Kognitif";
+        desc.innerText = "Pikiranmu membutuhkan rehat. Istirahatkan matamu dari layar gadget selama 15-30 menit dan lakukan peregangan tubuh secara perlahan.";
+      } else {
+        title.innerText = "🌱 Kondisi Mental Cukup Stabil";
+        desc.innerText = "Momen yang sangat baik untuk melakukan kegiatan kreatif, membaca, atau menuliskan apresiasi pada dirimu di menu Jurnal.";
+      }
+    }
+
+    // ================= LOCALSTORAGE JOURNAL SYSTEM =================
+    function getStoredJournals() {
+      return JSON.parse(localStorage.getItem('psyche_journals') || '[]');
+    }
+
+    function saveJournalEntry(text) {
+      const journals = getStoredJournals();
+      const newEntry = {
+        id: Date.now(),
+        date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+        content: text
+      };
+      journals.unshift(newEntry);
+      localStorage.setItem('psyche_journals', JSON.stringify(journals));
+      renderJournals();
+    }
+
+    function addJournalEntry() {
+      const input = document.getElementById('journalInput');
+      const val = input.value.trim();
+      if(!val) return;
+      playAudioTone(700, 'sine', 0.15);
+      saveJournalEntry(val);
+      input.value = '';
+    }
+
+    function deleteJournal(id) {
+      playAudioTone(200, 'sawtooth', 0.1);
+      let journals = getStoredJournals();
+      journals = journals.filter(j => j.id !== id);
+      localStorage.setItem('psyche_journals', JSON.stringify(journals));
+      renderJournals();
+    }
+
+    function exportJournals() {
+      const journals = getStoredJournals();
+      if(journals.length === 0) return alert('Belum ada catatan jurnal.');
+      
+      const content = journals.map(j => `=== ${j.date} ===\n${j.content}\n\n`).join('');
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `Jurnal_PsycheTarot_${Date.now()}.txt`;
+      a.click();
+    }
+
+    function renderJournals() {
+      const journals = getStoredJournals();
+      const query = (document.getElementById('searchJournal')?.value || '').toLowerCase();
+      const container = document.getElementById('journalEntries');
+
+      const filtered = journals.filter(j => j.content.toLowerCase().includes(query));
+
+      if(filtered.length === 0) {
+        container.innerHTML = `<div class="p-8 text-center text-xs text-slate-500 border border-dashed border-slate-800 rounded-2xl">Belum ada catatan tersemat. Tuliskan pikiranmu di atas.</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(j => `
+        <div class="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 text-xs space-y-2 relative group hover:border-pink-500/30 transition">
+          <div class="flex items-center justify-between text-[10px] text-pink-400 font-mono">
+            <span>${j.date}</span>
+            <button onclick="deleteJournal(${j.id})" class="text-slate-600 hover:text-red-400 transition">Hapus</button>
+          </div>
+          <p class="text-slate-300 leading-relaxed whitespace-pre-line">${j.content}</p>
+        </div>
+      `).join('');
+    }
+
+    // Inisialisasi
+    resetDeck();
+    resetQuiz();
+    renderJournals();
+  </script>
+</body>
+</html>
